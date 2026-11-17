@@ -9,8 +9,11 @@ def elimina_duplicados(lista: list) -> list:
     Devuelve:
     list: La lista sin elementos duplicados, manteniendo el orden original.
     """
-    # TODO: Implementar la función
-    pass
+    lista_res = []
+    for i in lista:
+        if i not in lista_res:
+            lista_res.append(i)
+    return lista_res
 
 def une_conjuntos(lista_de_conjuntos: list[set]) -> set:
     """
@@ -22,8 +25,11 @@ def une_conjuntos(lista_de_conjuntos: list[set]) -> set:
     Devuelve:
     set: El conjunto resultante de la unión de todos los conjuntos.
     """
-    # TODO: Implementar la función
-    pass
+    conjunto_res = set()
+    for i in lista_de_conjuntos:
+        conjunto_res = conjunto_res.union(i)
+    return conjunto_res
+
 
 def intersecta_conjuntos(lista_de_conjuntos: list[set]) -> set:
     """
@@ -35,5 +41,7 @@ def intersecta_conjuntos(lista_de_conjuntos: list[set]) -> set:
     Devuelve:
     set: El conjunto resultante de la intersección de todos los conjuntos.
     """
-    # TODO: Implementar la función
-    pass
+    conjunto_res = une_conjuntos(lista_de_conjuntos)
+    for i in lista_de_conjuntos:
+        conjunto_res = conjunto_res.intersection(i)
+    return conjunto_res

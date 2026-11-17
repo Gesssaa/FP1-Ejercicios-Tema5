@@ -11,11 +11,15 @@ def sustituye_palabras(texto: str, diccionario: dict[str, str]) -> str:
     Devuelve:
         Texto resultante de las sustituciones.
     """
-    # TODO: Implementar la función
-    pass
+    texto_res = texto
+    lista_texto = texto.split()
+    for i in lista_texto:
+        if i in diccionario.keys():
+            texto_res = texto_res.replace(i, diccionario[i])
+    return texto_res
 
 
-def indexa_por_iniciales(texto: str) -> dict[str, set[str]]:
+def indexa_por_iniciales(texto: str) -> dict[str, set[str]] | None:
     """
     Construye un diccionario que indexa las distintas palabras del texto
     (pasado a minúsculas) por sus iniciales.
@@ -28,8 +32,15 @@ def indexa_por_iniciales(texto: str) -> dict[str, set[str]]:
          que comienzan por dicha inicial.
     
     """
-    # TODO: Implementar la función
-    pass
+    dict_res = {}
+    texto_separado = texto.split()
+    for i in texto_separado:
+        i = i.lower()
+        if i[0] not in dict_res.keys():
+            dict_res[i[0]] = set()
+        dict_res[i[0]].add(i)
+    return dict_res
+
 
 def construye_frecuencias_bigramas(texto: str) -> dict[str, float]:
     """
@@ -45,9 +56,17 @@ def construye_frecuencias_bigramas(texto: str) -> dict[str, float]:
     Devuelve:
         Diccionario que asocia a cada bigrama su frecuencia normalizada en el texto.
     """
-    # TODO: Implementar la función
-    pass
-
+    dict_res = {}
+    texto_unido = texto.strip()
+    total_bigramas = 0
+    for i, j in zip(texto_unido, texto_unido[1:]):
+        if i+j not in dict_res:
+            dict_res[i+j] = 0
+        dict_res[i+j] += 1
+        total_bigramas +=1
+    for h in dict_res:
+        dict_res[h] = dict_res[h]/total_bigramas
+    return dict_res
 
 def calcula_distancia_media_frecuencias(freq1: dict[str, float], freq2: dict[str, float]) -> float:
     """
@@ -61,8 +80,20 @@ def calcula_distancia_media_frecuencias(freq1: dict[str, float], freq2: dict[str
     Devuelve:
         Distancia media entre los dos vectores de frecuencias, o 0.0 si ambos diccionarios están vacíos.
     """
-    # TODO: Implementar la función
-    pass
+    media = 0
+    num_bigramas = 0
+    conjunto_claves = set()
+    for i in freq1:
+        conjunto_claves.add(i)
+    for j in freq2:
+        conjunto_claves.add(j)
+    if len(conjunto_claves) == 0:
+        return 0.0
+    for h in conjunto_claves:
+        media += abs(freq1.get(h, 0)-freq2.get(h, 0))
+    media = media/len(conjunto_claves)
+    return media
+
 
 def identifica_idioma(textos_ejemplo: dict[str, str], texto_a_identificar: str) -> str:
     """
@@ -76,9 +107,17 @@ def identifica_idioma(textos_ejemplo: dict[str, str], texto_a_identificar: str) 
     Devuelve:
         El idioma identificado del texto.
     """
-    # TODO: Implementar la función
-    pass
-
+    freq_texto = construye_frecuencias_bigramas(texto_a_identificar)
+    mayor_coincidencia = ""
+    menor_distancia = 100
+    for i in textos_ejemplo:
+        freq_idioma = construye_frecuencias_bigramas(textos_ejemplo[i])
+        distancia = calcula_distancia_media_frecuencias(freq_texto, freq_idioma)
+        print(f"distancia de {i} es {distancia}")
+        if distancia < menor_distancia:
+            menor_distancia = distancia
+            mayor_coincidencia = i
+    return mayor_coincidencia
 
 
 
